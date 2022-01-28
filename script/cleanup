@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+while getopts g: OPT; do
+  case $OPT in
+  "g")
+    FLG_G="TRUE"
+    RESOURCE_GROUP_NAME="$OPTARG"
+    ;;
+  *)
+    echo "Usage: script/cleanup -g RESOURCE_GROUP_NAME" 1>&2
+    exit 1
+    ;;
+  esac
+done
+
+if [ "$FLG_G" != "TRUE" ]; then
+    echo "Usage: script/cleanup -g RESOURCE_GROUP_NAME" 1>&2
+    exit 1
+
+fi
+
+echo "az group delete --name $RESOURCE_GROUP_NAME"
+az group delete --name $RESOURCE_GROUP_NAME

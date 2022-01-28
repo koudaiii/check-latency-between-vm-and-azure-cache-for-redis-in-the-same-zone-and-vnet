@@ -1,0 +1,112 @@
+#!/bin/bash
+set -e
+PREFIX=$(date "+%Y%m%d%H%M%S")
+
+VM_NAME=$PREFIX-vm
+VM_IMAGE_NAME=UbuntuLTS
+REDIS_NAME=$PREFIX-redis
+VNET_NAME=$PREFIX-vnet
+SUBNET_NAME=$PREFIX-subnet
+REDIS_CACHE_CAPACITY=1
+ENABLE_NON_SSL_PORT=true
+MINIMUM_TLS_VERSION=1.2
+REDIS_VERSION=4
+
+LOCATION_NAME=japaneast
+ZONE=1
+
+while getopts g: OPT; do
+  case $OPT in
+  "g")
+    FLG_G="TRUE"
+    RESOURCE_GROUP_NAME="$OPTARG"
+    ;;
+  *)
+    echo "Usage: script/setup [-g RESOURCE_GROUP_NAME(Default: $PREFIX-resource-group)]" 1>&2
+    exit 1
+    ;;
+  esac
+done
+
+if [ "$FLG_G" != "TRUE" ]; then
+  RESOURCE_GROUP_NAME=$PREFIX-resource-group
+fi
+
+echo "az group create \
+  --name $RESOURCE_GROUP_NAME \
+  --location $LOCATION_NAME"
+
+echo ""
+az group create \
+  --name $RESOURCE_GROUP_NAME \
+  --location $LOCATION_NAME
+
+# Create a new virtual machine, this creates SSH keys if not present.
+echo ""
+echo "az vm create \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $VM_NAME \
+  --image $VM_IMAGE_NAME \
+  --vnet-name $VNET_NAME \
+  --subnet $SUBNET_NAME \
+  --generate-ssh-keys \
+  --zone $ZONE"
+
+echo ""
+az vm create \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $VM_NAME \
+  --image $VM_IMAGE_NAME \
+  --vnet-name $VNET_NAME \
+  --subnet $SUBNET_NAME \
+  --generate-ssh-keys \
+  --zone $ZONE
+
+# Create a Premium P1 (6 GB) Redis Cache
+echo ""
+echo "az deployment group create  \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --parameters \
+  location=$LOCATION_NAME \
+  redisVersion=$REDIS_VERSION \
+  redisZone=$ZONE \
+  redisCacheName=$REDIS_NAME \
+  redisCacheCapacity=$REDIS_CACHE_CAPACITY \
+  existingVirtualNetworkResourceGroupName=$RESOURCE_GROUP_NAME \
+  existingVirtualNetworkName=$VNET_NAME \
+  existingSubnetName=$SUBNET_NAME \
+  enableNonSslPort=$ENABLE_NON_SSL_PORT \
+  minimumTlsVersion=$MINIMUM_TLS_VERSION \
+  --template-file azure/azuredeploy.json"
+
+echo ""
+az deployment group create \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --parameters \
+  location=$LOCATION_NAME \
+  redisCacheName=$REDIS_NAME \
+  redisCacheCapacity=$REDIS_CACHE_CAPACITY \
+  existingVirtualNetworkResourceGroupName=$RESOURCE_GROUP_NAME \
+  existingVirtualNetworkName=$VNET_NAME \
+  existingSubnetName=$SUBNET_NAME \
+  enableNonSslPort=$ENABLE_NON_SSL_PORT \
+  minimumTlsVersion=$MINIMUM_TLS_VERSION \
+  --template-file azure/azuredeploy.json
+
+echo ""
+echo "Complated!"
+echo ""
+echo "----------------------------------------------------------------"
+echo "# How to login to VM"
+echo ""
+echo "ssh $(whoami)@$(az vm show -n $VM_NAME -g $RESOURCE_GROUP_NAME --show-details -o json --query publicIps | jq -r .)"
+echo ""
+echo "# How to install to Redis in VM"
+echo "sudo apt-get update; sudo apt-get install -y redis"
+echo ""
+echo "# How to connect to Redis from VM"
+echo "redis-benchmark -h $(az redis show -g $RESOURCE_GROUP_NAME -n $REDIS_NAME --out json --query hostName | jq -r .) -p 6379 -a $(az redis list-keys -g $RESOURCE_GROUP_NAME -n $REDIS_NAME -o json --query primaryKey | jq -r .) -t get,set -c 10 -n 10000"
+echo ""
+echo "# How to clean up"
+echo "script/cleanup -g $RESOURCE_GROUP_NAME"
+echo ""
