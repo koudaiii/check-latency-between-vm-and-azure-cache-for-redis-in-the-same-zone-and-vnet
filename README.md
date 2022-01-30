@@ -162,7 +162,7 @@ xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 
 another terminal
 
 ```console
-$ az network watcher test-connectivity --resource-group 20220128231142-resource-group --source-resource 20220128231142-vm --dest-address 20220128231142-redis.redis.cache.windows.net --dest-port 6379
+$ az network watcher test-connectivity --resource-group 20220128190422-resource-group --source-resource 20220128190422-vm --dest-address 20220128190422-redis.redis.cache.windows.net --dest-port 6379
 
 This command is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
 AvgLatencyInMs    ConnectionStatus    MaxLatencyInMs    MinLatencyInMs    ProbesFailed    ProbesSent
