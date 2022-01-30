@@ -32,7 +32,7 @@ $ ssh xxxx@xxxx
 # redis-benchmark -h xxxx -p xxxx -a xxxxx -t get,set -c 10 -n 10000
 ```
 
-## How to run network watcher
+## How to run Azure Network Watcher
 
 [Troubleshoot connections with Azure Network Watcher using the Azure CLI](https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-connectivity-cli)
 
@@ -88,7 +88,7 @@ sudo apt-get update; sudo apt-get install -y redis
 # How to connect to Redis from VM
 redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 -n 10000
 
-# How to run network watcher
+# How to run Azure Network Watcher
 az network watcher test-connectivity --resource-group 20220128190422-resource-group --source-resource 20220128190422-vm --dest-address 20220128190422-redis.redis.cache.windows.net --dest-port 6379
 
 # How to clean up
