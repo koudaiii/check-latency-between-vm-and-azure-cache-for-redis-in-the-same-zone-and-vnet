@@ -44,6 +44,8 @@ $ ssh xxxx@xxxx
 another terminal
 
 ```console
+$ az vm extension set --resource-group <resource-group> --vm-name <vm> --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
+
 $ az network watcher test-connectivity --resource-group <resource-group> --source-resource <vm> --dest-address <redis> --dest-port xxxx
 ```
 
@@ -89,6 +91,8 @@ sudo apt-get update; sudo apt-get install -y redis
 redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 -n 10000
 
 # How to run Azure Network Watcher
+az vm extension set --resource-group 20220128190422-resource-group --vm-name 20220128190422-vm --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
+
 az network watcher test-connectivity --resource-group 20220128190422-resource-group --source-resource 20220128190422-vm --dest-address 20220128190422-redis.redis.cache.windows.net --dest-port 6379
 
 # How to clean up
@@ -162,6 +166,11 @@ xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 
 another terminal
 
 ```console
+$ az vm extension set --resource-group 20220128190422-resource-group --vm-name 20220128190422-vm --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
+AutoUpgradeMinorVersion    Location    Name                      ProvisioningState    Publisher                       ResourceGroup                  TypeHandlerVersion    TypePropertiesType
+-------------------------  ----------  ------------------------  -------------------  ------------------------------  -----------------------------  --------------------  ------------------------
+True                       japaneast   NetworkWatcherAgentLinux  Succeeded            Microsoft.Azure.NetworkWatcher  20220128190422-resource-group  1.4                   NetworkWatcherAgentLinux
+
 $ az network watcher test-connectivity --resource-group 20220128190422-resource-group --source-resource 20220128190422-vm --dest-address 20220128190422-redis.redis.cache.windows.net --dest-port 6379
 
 This command is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
