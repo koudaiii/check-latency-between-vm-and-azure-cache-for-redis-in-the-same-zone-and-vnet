@@ -34,18 +34,22 @@ $ ssh xxxx@xxxx
 
 ## How to run Azure Network Watcher
 
-[Troubleshoot connections with Azure Network Watcher using the Azure CLI](https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-connectivity-cli)
-
 ```console
 $ ssh xxxx@xxxx
 # redis-benchmark -h xxxx -p xxxx -a xxxxx -t get,set -c 10 -n 10000 -l
 ```
 
-another terminal
+- another terminal
+
+[Network Watcher Agent virtual machine extension for Linux](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/network-watcher-linux)
 
 ```console
 $ az vm extension set --resource-group <resource-group> --vm-name <vm> --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
+```
 
+[Troubleshoot connections with Azure Network Watcher using the Azure CLI](https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-connectivity-cli)
+
+```console
 $ az network watcher test-connectivity --resource-group <resource-group> --source-resource <vm> --dest-address <redis> --dest-port xxxx
 ```
 
