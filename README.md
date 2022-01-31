@@ -1,10 +1,10 @@
-# Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
-Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
+# Check latency between VM and Azure Cache for Redis in the same Zone and Vnet
+Check latency between VM and Azure Cache for Redis in the same Zone and Vnet
 
 Table of Contents
 =================
 
-- [Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet](#check-latency-between-vm-and-azure-cache-for-redis-in-the-same-zone-and-the-same-vnet)
+- [Check latency between VM and Azure Cache for Redis in the same Zone and Vnet](#check-latency-between-vm-and-azure-cache-for-redis-in-the-same-zone-and-vnet)
 - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Usage](#usage)
