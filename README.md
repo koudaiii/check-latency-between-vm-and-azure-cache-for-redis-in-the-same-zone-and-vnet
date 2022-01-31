@@ -53,12 +53,7 @@ $ ssh xxxx@xxxx
 
 ## How to run Azure Network Watcher
 
-```console
-$ ssh xxxx@xxxx
-# redis-benchmark -h xxxx -p xxxx -a xxxxx -t get,set -c 10 -n 10000 -l
-```
-
-- another terminal
+![](img/Network_Watcher_-_Microsoft_Azure.png)
 
 [Network Watcher Agent virtual machine extension for Linux](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/network-watcher-linux)
 
@@ -78,9 +73,11 @@ $ az network watcher test-connectivity --resource-group <resource-group> --sourc
 $ script/cleanup -g <resource-group>
 ```
 
-## log
+## Log
 
-```log
+### redis-benchmark
+
+```console
 $ script/setup
 az group create   --name 20220128190422-resource-group   --location japaneast
 
@@ -182,11 +179,9 @@ xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 
 99.98% <= 6 milliseconds
 100.00% <= 9 milliseconds
 15772.87 requests per second
-
-xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 -n 10000 -l
 ```
 
-another terminal
+### Azure Network Watcher
 
 ```console
 $ az vm extension set --resource-group 20220128190422-resource-group --vm-name 20220128190422-vm --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
@@ -202,7 +197,7 @@ AvgLatencyInMs    ConnectionStatus    MaxLatencyInMs    MinLatencyInMs    Probes
 1                 Reachable           2                 1                 0               66
 ```
 
-cleanup
+### Cleanup
 
 ```console
 $ script/cleanup -g 20220128190422-resource-group
