@@ -66,34 +66,28 @@ az vm create \
 
 # Create a Premium P1 (6 GB) Redis Cache
 echo ""
-echo "az deployment group create  \
+echo "az redis create \
   --resource-group $RESOURCE_GROUP_NAME \
-  --parameters \
-  location=$LOCATION_NAME \
-  redisVersion=$REDIS_VERSION \
-  redisZone=$ZONE \
-  redisCacheName=$REDIS_NAME \
-  redisCacheCapacity=$REDIS_CACHE_CAPACITY \
-  existingVirtualNetworkResourceGroupName=$RESOURCE_GROUP_NAME \
-  existingVirtualNetworkName=$VNET_NAME \
-  existingSubnetName=$SUBNET_NAME \
-  enableNonSslPort=$ENABLE_NON_SSL_PORT \
-  minimumTlsVersion=$MINIMUM_TLS_VERSION \
-  --template-file azure/azuredeploy.json"
+  --name $REDIS_NAME \
+  --location $LOCATION_NAME \
+  --redis-version $REDIS_VERSION \
+  --sku Premium \
+  --vm-size p$REDIS_CACHE_CAPACITY \
+  --zones $ZONE \
+  --enable-non-ssl-port \
+  --subnet-id $(az network vnet subnet show -g $RESOURCE_GROUP_NAME --vnet-name $VNET_NAME --name $SUBNET_NAME -o json --query id | jq -r .)"
 
 echo ""
-az deployment group create \
+az redis create \
   --resource-group $RESOURCE_GROUP_NAME \
-  --parameters \
-  location=$LOCATION_NAME \
-  redisCacheName=$REDIS_NAME \
-  redisCacheCapacity=$REDIS_CACHE_CAPACITY \
-  existingVirtualNetworkResourceGroupName=$RESOURCE_GROUP_NAME \
-  existingVirtualNetworkName=$VNET_NAME \
-  existingSubnetName=$SUBNET_NAME \
-  enableNonSslPort=$ENABLE_NON_SSL_PORT \
-  minimumTlsVersion=$MINIMUM_TLS_VERSION \
-  --template-file azure/azuredeploy.json
+  --name $REDIS_NAME \
+  --location $LOCATION_NAME \
+  --redis-version $REDIS_VERSION \
+  --sku Premium \
+  --vm-size p$REDIS_CACHE_CAPACITY \
+  --zones $ZONE \
+  --enable-non-ssl-port \
+  --subnet-id $(az network vnet subnet show -g $RESOURCE_GROUP_NAME --vnet-name $VNET_NAME --name $SUBNET_NAME -o json --query id | jq -r .)
 
 echo ""
 echo "Complated!"
