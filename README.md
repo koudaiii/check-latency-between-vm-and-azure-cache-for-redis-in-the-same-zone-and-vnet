@@ -91,11 +91,11 @@ ResourceGroup                  PowerState    PublicIpAddress    Fqdns    Private
 -----------------------------  ------------  -----------------  -------  ------------------  -----------------  ----------  -------
 20220128190422-resource-group  VM running    xxxx               10.0.0.4            00-22-48-E6-A9-11  japaneast   1
 
-az deployment group create    --resource-group 20220128190422-resource-group   --parameters   location=japaneast   redisVersion=4   redisZone=1   redisCacheName=20220128190422-redis   redisCacheCapacity=1   existingVirtualNetworkResourceGroupName=20220128190422-resource-group   existingVirtualNetworkName=20220128190422-vnet   existingSubnetName=20220128190422-subnet   enableNonSslPort=true   minimumTlsVersion=1.2   --template-file azure/azuredeploy.json
+az redis create   --resource-group 20220128190422-resource-group   --name 20220128190422-redis   --location japaneast   --redis-version 4   --sku Premium   --vm-size p1   --zones 1   --enable-non-ssl-port   --subnet-id /subscriptions/xxxx/resourceGroups/20220128190422-resource-group/providers/Microsoft.Network/virtualNetworks/20220128190422-vnet/subnets/20220128190422-subnet
 
-Name         State      Timestamp                         Mode         ResourceGroup
------------  ---------  --------------------------------  -----------  -----------------------------
-azuredeploy  Succeeded  2022-01-28T10:17:28.200392+00:00  Incremental  20220128190422-resource-group
+EnableNonSslPort    HostName                                      Location    Name                  Port    ProvisioningState    PublicNetworkAccess    RedisVersion    ResourceGroup                  SslPort    SubnetId
+------------------  --------------------------------------------  ----------  --------------------  ------  -------------------  ---------------------  --------------  -----------------------------  ---------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+True                20220128190422-redis.redis.cache.windows.net  Japan East  20220128190422-redis  6379    Creating             Enabled                4.1.14          20220128190422-resource-group  6380       /subscriptions/xxxx/resourceGroups/20220128190422-resource-group/providers/Microsoft.Network/virtualNetworks/20220128190422-vnet/subnets/20220128190422-subnet
 
 Complated!
 
