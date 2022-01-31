@@ -46,6 +46,7 @@ echo ""
 echo "az vm create \
   --resource-group $RESOURCE_GROUP_NAME \
   --name $VM_NAME \
+  --location $LOCATION_NAME \
   --image $VM_IMAGE_NAME \
   --vnet-name $VNET_NAME \
   --subnet $SUBNET_NAME \
@@ -56,6 +57,7 @@ echo ""
 az vm create \
   --resource-group $RESOURCE_GROUP_NAME \
   --name $VM_NAME \
+  --location $LOCATION_NAME \
   --image $VM_IMAGE_NAME \
   --vnet-name $VNET_NAME \
   --subnet $SUBNET_NAME \
