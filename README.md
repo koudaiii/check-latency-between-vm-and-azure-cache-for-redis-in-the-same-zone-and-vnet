@@ -1,6 +1,25 @@
 # Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
 Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
 
+Table of Contents
+=================
+
+- [Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet](#check-latency-between-vm-and-azure-cache-for-redis-in-the-same-zone-and-the-same-vnet)
+- [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+  - [Usage](#usage)
+    - [How to setup in az](#how-to-setup-in-az)
+    - [Create a new Virtual Machine and a new Azure Cache for Redis P1](#create-a-new-virtual-machine-and-a-new-azure-cache-for-redis-p1)
+    - [How to run redis-benchmark in VM](#how-to-run-redis-benchmark-in-vm)
+  - [How to run Azure Network Watcher](#how-to-run-azure-network-watcher)
+  - [Clean up](#clean-up)
+  - [Log](#log)
+    - [redis-benchmark](#redis-benchmark)
+    - [Azure Network Watcher](#azure-network-watcher)
+    - [Cleanup](#cleanup)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+
 ## Requirements
 
 - [`az`](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
