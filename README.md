@@ -1,6 +1,25 @@
 # Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
 Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet
 
+Table of Contents
+=================
+
+- [Check latency between VM and Azure Cache for Redis in the same Zone and the same Vnet](#check-latency-between-vm-and-azure-cache-for-redis-in-the-same-zone-and-the-same-vnet)
+- [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
+  - [Usage](#usage)
+    - [How to setup in az](#how-to-setup-in-az)
+    - [Create a new Virtual Machine and a new Azure Cache for Redis P1](#create-a-new-virtual-machine-and-a-new-azure-cache-for-redis-p1)
+    - [How to run redis-benchmark in VM](#how-to-run-redis-benchmark-in-vm)
+  - [How to run Azure Network Watcher](#how-to-run-azure-network-watcher)
+  - [Clean up](#clean-up)
+  - [Log](#log)
+    - [redis-benchmark](#redis-benchmark)
+    - [Azure Network Watcher](#azure-network-watcher)
+    - [Cleanup](#cleanup)
+
+Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc.go)
+
 ## Requirements
 
 - [`az`](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
@@ -34,12 +53,7 @@ $ ssh xxxx@xxxx
 
 ## How to run Azure Network Watcher
 
-```console
-$ ssh xxxx@xxxx
-# redis-benchmark -h xxxx -p xxxx -a xxxxx -t get,set -c 10 -n 10000 -l
-```
-
-- another terminal
+![](img/Network_Watcher_-_Microsoft_Azure.png)
 
 [Network Watcher Agent virtual machine extension for Linux](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/network-watcher-linux)
 
@@ -59,9 +73,11 @@ $ az network watcher test-connectivity --resource-group <resource-group> --sourc
 $ script/cleanup -g <resource-group>
 ```
 
-## log
+## Log
 
-```log
+### redis-benchmark
+
+```console
 $ script/setup
 az group create   --name 20220128190422-resource-group   --location japaneast
 
@@ -163,11 +179,9 @@ xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 
 99.98% <= 6 milliseconds
 100.00% <= 9 milliseconds
 15772.87 requests per second
-
-xxxx@20220128190422-vm:~$ redis-benchmark -h xxx -p xxx -a xxx -t get,set -c 10 -n 10000 -l
 ```
 
-another terminal
+### Azure Network Watcher
 
 ```console
 $ az vm extension set --resource-group 20220128190422-resource-group --vm-name 20220128190422-vm --name NetworkWatcherAgentLinux --publisher Microsoft.Azure.NetworkWatcher --version 1.4
@@ -183,7 +197,7 @@ AvgLatencyInMs    ConnectionStatus    MaxLatencyInMs    MinLatencyInMs    Probes
 1                 Reachable           2                 1                 0               66
 ```
 
-cleanup
+### Cleanup
 
 ```console
 $ script/cleanup -g 20220128190422-resource-group
